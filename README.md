@@ -688,7 +688,7 @@ Conjuntos de protocolos proporcionam um padrão comum para a comunicação de da
 O `modelo de camadas` é uma forma de organizar a comunicação em redes de computadores, **dividindo o processo de troca de dados em diferentes camadas**, cada uma com responsabilidades específicas. Essa abordagem facilita o desenvolvimento, padronização e entendimento dos protocolos e tecnologias de rede.
 
 <p align="center">
-<img src="https://www.researchgate.net/publication/310193861/figure/fig1/AS:428418383781889@1479154310501/Figura-3-Modelo-OSI-e-TCP-IP.png" width="450px" height="300px">
+<img src="https://www.dltec.com.br/blog/wp-content/uploads/2019/02/osi-tcp-ip.png" width="450px" height="300px">
 </p>
 
 ## OSI
