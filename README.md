@@ -1,80 +1,155 @@
 # Redes de Computadores I
 
-* Introdução as redes
-  * [Componentes de rede](#componentes-de-rede)
-    * [Host](#host)
-    * [Dispositivos finais](#dispositivos-finais)
-    * [Dispositivos intermediários](#dispositivos-intermediários)
-    * [Meios de rede](#meios-de-rede)
-  * [Representações e topologia de rede](#representações-e-topologias-de-rede)
-    * [Representações de rede](#representações-de-rede)
-    * [Diagrama de topologia](#diagrama-de-topologia)
-  * [Tipos comuns de rede](#tipos-comuns-de-rede)
-    * [LAN](#lan)
-    * [WAN](#wan)
-* Switch básico
-  * [Sistema operacional](#sistema-operacional)
-    * [Métodos de acesso](#métodos-de-acesso)
-  * [Comandos básicos](#comandos-primários)
-    * [Modo de configuração](#modo-de-configuração)
-    * [Navegação entre os modos do IOS](#navegação-entre-os-modos-do-ios)
-    * [Resumo](#resumo)
-  * [Configuração básica de dispositivos](#configuração-básica-de-dispositivos)
-    * [Nomes de dispositivos](#nomes-de-dispositivo)
-    * [Configurar senhas](#configurar-senhas)
-    * [Criptografar senhas](#criptografar-senhas)
-    * [Mensagens de banner](#mensagens-de-banner)
-    * [Arquivos de configuração](#arquivos-de-configuração)
-  * [Endereço IP](#endereço-ip)
-  * [Interfaces e portas](#interfaces-e-portas)
-    * [Configuração manual de IP](#configuração-manual-de-ip)
-    * [Configuração automática de IP](#configuração-automática-de-ip)
-  * [Configuração da interface virtual do Switch](#configuração-da-interface-virtual-do-switch)
-* Protocolos e modelos
-  * [As regras](#as-regras)
-    * [Codificação de mensagens](#codificação-de-mensagens)
-    * [Formatação e encapsulamento de mensagens](#formatação-e-encapsulamento-de-mensagens)
-    * [Tamanho da mensagem](#tamanho-da-mensagem)
-    * [Temporização da mensagem](#temporização-da-mensagem)
-    * [Opções de envio de mensagenm](#opções-de-envio-de-mensagem)
-  * [Protocolos](#protocolos)
-    * [Funções de protocolos](#funções-de-protocolos)
-    * [Conjunto de protocolos](#conjunto-de-protocolos)
-  * [Modelos de camadas](#modelos-de-camadas)
-    * [OSI](#osi)
-    * [TCP/IP](#tcpip)
-    * [Comparações](#comparações)
-  * [Encapsulamento de dados](#encapsulamento-de-dados)
-    * [Segmentação](#segmentação)
-    * [Sequenciamento](#sequenciamento)
-* Camada física
-  * [Visão geral](#visão-geral)
-    * [Componentes físicos](#componentes-físicos)
-    * [Codificação](#codificação)
-    * [Sinalização](#sinalização)
-  * [Largura de banda](#largura-de-banda)
-* Camada de enlace de dados
-  * [Conceitos gerais](#conceitos-gerais)
-  * [Subcamadas](#subcamadas)
-    * [LLC](#llc)
-    * [MAC](#mac)
-  * [Topologias](#topologias)
-    * [Ponto a ponto](#ponto-a-ponto)
-    * [Barramento](#barramento)
-    * [Estrela](#estrela)
-    * [Anel](#anel)
-    * [Malha](#malha)
-    * [Árvore](#árvore)
-    * [Híbrida](#híbrida)
-  * [Comunicação](#comunicação)
-    * [Half-duplex](#half-duplex)
-    * [Full-duplex](#full-duplex)
-  * [Métodos de controle de acesso](#métodos-de-controle-de-acesso)
-    * [Acesso baseado em controle](#acesso-baseado-em-controle)
-    * [Acesso baseado em contenção](#acesso-baseado-em-contenção)
-  * [Quadros](#quadros)
-    * [Detecção de erros](#detecção-de-erros)
-    * [Endereços MAC](#endereços-mac)
+<details>
+ <summary>Introdução às Redes</summary>
+<ul>
+    <li><a href="#componentes-de-rede">Componentes de rede</a>
+        <ul>
+            <li><a href="#host">Host</a></li>
+            <li><a href="#dispositivos-finais">Dispositivos finais</a></li>
+            <li><a href="#dispositivos-intermediários">Dispositivos intermediários</a></li>
+            <li><a href="#meios-de-rede">Meios de rede</a></li>
+        </ul>
+    </li>
+    <li><a href="#representações-e-topologias-de-rede">Representações e topologia de rede</a>
+        <ul>
+            <li><a href="#representações-de-rede">Representações de rede</a></li>
+            <li><a href="#diagrama-de-topologia">Diagrama de topologia</a></li>
+        </ul>
+    </li>
+    <li><a href="#tipos-comuns-de-rede">Tipos comuns de rede</a>
+        <ul>
+            <li><a href="#lan">LAN</a></li>
+            <li><a href="#wan">WAN</a></li>
+        </ul>
+    </li>
+</ul>
+</details>
+
+<details>
+<summary>Switch Básico</summary>
+<ul>
+    <li><a href="#sistema-operacional">Sistema operacional</a>
+        <ul>
+            <li><a href="#métodos-de-acesso">Métodos de acesso</a></li>
+        </ul>
+    </li>
+    <li><a href="#comandos-primários">Comandos básicos</a>
+        <ul>
+            <li><a href="#modo-de-configuração">Modo de configuração</a></li>
+            <li><a href="#navegação-entre-os-modos-do-ios">Navegação entre os modos do IOS</a></li>
+            <li><a href="#resumo">Resumo</a></li>
+        </ul>
+    </li>
+    <li><a href="#configuração-básica-de-dispositivos">Configuração básica de dispositivos</a>
+        <ul>
+            <li><a href="#nomes-de-dispositivo">Nomes de dispositivos</a></li>
+            <li><a href="#configurar-senhas">Configurar senhas</a></li>
+            <li><a href="#criptografar-senhas">Criptografar senhas</a></li>
+            <li><a href="#mensagens-de-banner">Mensagens de banner</a></li>
+            <li><a href="#arquivos-de-configuração">Arquivos de configuração</a></li>
+        </ul>
+    </li>
+    <li><a href="#endereço-ip">Endereço IP</a></li>
+    <li><a href="#interfaces-e-portas">Interfaces e portas</a>
+        <ul>
+            <li><a href="#configuração-manual-de-ip">Configuração manual de IP</a></li>
+            <li><a href="#configuração-automática-de-ip">Configuração automática de IP</a></li>
+        </ul>
+    </li>
+    <li><a href="#configuração-da-interface-virtual-do-switch">Configuração da interface virtual do Switch</a></li>
+</ul>
+</details>
+
+<details>
+<summary>Protocolos e Modelos</summary>
+<ul>
+    <li><a href="#as-regras">As regras</a>
+        <ul>
+            <li><a href="#codificação-de-mensagens">Codificação de mensagens</a></li>
+            <li><a href="#formatação-e-encapsulamento-de-mensagens">Formatação e encapsulamento de mensagens</a></li>
+            <li><a href="#tamanho-da-mensagem">Tamanho da mensagem</a></li>
+            <li><a href="#temporização-da-mensagem">Temporização da mensagem</a></li>
+            <li><a href="#opções-de-envio-de-mensagem">Opções de envio de mensagem</a></li>
+        </ul>
+    </li>
+    <li><a href="#protocolos">Protocolos</a>
+        <ul>
+            <li><a href="#funções-de-protocolos">Funções de protocolos</a></li>
+            <li><a href="#conjunto-de-protocolos">Conjunto de protocolos</a></li>
+        </ul>
+    </li>
+    <li><a href="#modelos-de-camadas">Modelos de camadas</a>
+        <ul>
+            <li><a href="#osi">OSI</a></li>
+            <li><a href="#tcpip">TCP/IP</a></li>
+            <li><a href="#comparações">Comparações</a></li>
+        </ul>
+    </li>
+    <li><a href="#encapsulamento-de-dados">Encapsulamento de dados</a>
+        <ul>
+            <li><a href="#segmentação">Segmentação</a></li>
+            <li><a href="#sequenciamento">Sequenciamento</a></li>
+        </ul>
+    </li>
+</ul>
+</details>
+
+<details>
+<summary>Camada Física</summary>
+<ul>
+    <li><a href="#visão-geral">Visão geral</a>
+        <ul>
+            <li><a href="#componentes-físicos">Componentes físicos</a></li>
+            <li><a href="#codificação">Codificação</a></li>
+            <li><a href="#sinalização">Sinalização</a></li>
+        </ul>
+    </li>
+    <li><a href="#largura-de-banda">Largura de banda</a></li>
+</ul>
+</details>
+
+<details>
+<summary>Camada de Enlace de Dados</summary>
+<ul>
+    <li><a href="#conceitos-gerais">Conceitos gerais</a></li>
+    <li><a href="#subcamadas">Subcamadas</a>
+        <ul>
+            <li><a href="#llc">LLC</a></li>
+            <li><a href="#mac">MAC</a></li>
+        </ul>
+    </li>
+    <li><a href="#topologias">Topologias</a>
+        <ul>
+            <li><a href="#ponto-a-ponto">Ponto a ponto</a></li>
+            <li><a href="#barramento">Barramento</a></li>
+            <li><a href="#estrela">Estrela</a></li>
+            <li><a href="#anel">Anel</a></li>
+            <li><a href="#malha">Malha</a></li>
+            <li><a href="#árvore">Árvore</a></li>
+            <li><a href="#híbrida">Híbrida</a></li>
+        </ul>
+    </li>
+    <li><a href="#comunicação">Comunicação</a>
+        <ul>
+            <li><a href="#half-duplex">Half-duplex</a></li>
+            <li><a href="#full-duplex">Full-duplex</a></li>
+        </ul>
+    </li>
+    <li><a href="#métodos-de-controle-de-acesso">Métodos de controle de acesso</a>
+        <ul>
+            <li><a href="#acesso-baseado-em-controle">Acesso baseado em controle</a></li>
+            <li><a href="#acesso-baseado-em-contenção">Acesso baseado em contenção</a></li>
+        </ul>
+    </li>
+    <li><a href="#quadros">Quadros</a>
+        <ul>
+            <li><a href="#detecção-de-erros">Detecção de erros</a></li>
+            <li><a href="#endereços-mac">Endereços MAC</a></li>
+        </ul>
+    </li>
+</ul>
+</details>
 
 # Componentes de rede
 
