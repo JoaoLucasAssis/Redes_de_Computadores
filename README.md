@@ -792,6 +792,7 @@ O modelo de camadas `TCP/IP` possui suas funções divididas em camada da mesma 
 Os protocolos que compõem a suíte de protocolos TCP/IP também podem ser descritos em termos do modelo de referência OSI.
 
 |Camadas|Número|Descrição|
+|:---:|:---:|:---|
 |Acesso à rede|1|Controla os dispositivos de hardware e o meio físico que formam a rede|
 |Internet|2|Determina o melhor caminho pela rede|
 |Transporte|3|Permite a comunicação entre vários dispositivos diferentes em redes distintas|
