@@ -1301,7 +1301,7 @@ O endereço da camada de enlace de dados é usado **apenas para entrega local**.
 <br><br><br><br><hr>
 <div align="center">
     <p><strong>Módulo Anterior:</strong> Camada de enlace de dados</p>
-    <p><strong>Próximo Módulo:</strong>Switching Ethernet</p>
+    <p><strong>Próximo Módulo:</strong> Switching Ethernet</p>
     <a href="#redes-de-computadores-i">Voltar ao topo &#8593;</a>
 </div>
 <hr><br><br><br><br>
