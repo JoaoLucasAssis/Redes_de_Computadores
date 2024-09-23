@@ -1,5 +1,13 @@
 # Redes de Computadores I
 
+Este repositório foi criado para armazenar as anotações do curso Redes de Computadores I - Introduction to Networks, da plataforma NetAcad da Cisco, cursado na disciplina de Redes de Computadores I, na Universidade Vila Velha. 
+
+Nele estão registradas as notas sobre os módulos ensinados em sala de aula, bem como sobre os módulos adicionais que, embora não abordados diretamente no semestre, foram estudados para o exame final e a obtenção do certificado de conclusão. 
+
+As anotações incluem pontos-chave dos temas discutidos, destacando partes importantes e grifando palavras-chave essenciais para facilitar o estudo e a revisão.
+
+# Sumário
+
 <details>
  <summary>Introdução às Redes</summary>
 <ul>
@@ -146,6 +154,31 @@
         <ul>
             <li><a href="#detecção-de-erros">Detecção de erros</a></li>
             <li><a href="#endereços-mac">Endereços MAC</a></li>
+        </ul>
+    </li>
+</ul>
+</details>
+
+<details>
+<summary>Switching Ethernet</summary>
+<ul>
+    <li><a href="#definição">Definição</a></li>
+    <li><a href="#quadro-ethernet">Quadro Ethernet</a>
+        <ul>
+            <li><a href="#processamento-de-quadros-ethernet">Processamento de quadros Ethernet</a></li>
+        </ul>
+    </li>
+    <li><a href="#endereço-mac">Endereço MAC</a>
+        <ul>
+            <li><a href="#endereço-mac-unicast">Endereço MAC unicast</a></li>
+            <li><a href="#endereço-mac-multicast">Endereço MAC multicast</a></li>
+            <li><a href="#endereço-mac-broadcast">Endereço MAC broadcast</a></li>
+        </ul>
+    </li>
+    <li><a href="#tabela-de-endereçamentos-mac">Tabela de endereçamentos MAC</a>
+        <ul>
+            <li><a href="#aprendizado">Aprendizado</a></li>
+            <li><a href="#encaminhamento">Encaminhamento</a></li>
         </ul>
     </li>
 </ul>
@@ -1240,3 +1273,164 @@ Esse `endereço físico (MAC)` da camada de enlace de dados está contido no `ca
 Normalmente, ele está no **início do quadro**, portanto, a `NIC` pode determinar rapidamente se ela corresponde ao seu próprio endereço antes de aceitar o restante do quadro. O cabeçalho do quadro também pode conter o endereço do **dispositivo de origem** do quadro.
 
 O endereço da camada de enlace de dados é usado **apenas para entrega local**. Os endereços nessa camada não têm significado além da rede local.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br><br><br><br><hr>
+<div align="center">
+    <p><strong>Módulo Anterior:</strong> Camada de enlace de dados</p>
+    <p><strong>Próximo Módulo:</strong>Switching Ethernet</p>
+    <a href="#redes-de-computadores-i">Voltar ao topo &#8593;</a>
+</div>
+<hr><br><br><br><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Definição
+
+Ethernet é uma tecnologia fundamental para redes locais `LAN`, oferecendo um **método padronizado** para **conectar dispositivos** e permitir a troca de dados. A Ethernet utiliza comunicações com fios, incluindo par trançado, ligações de fibra óptica e cabos coaxiais.
+
+Ela opera na `camada de enlace de dados` e na `camada física`. É uma **família de tecnologias de rede** definidas nos padrões **IEEE 802.2** e **802.3**.
+
+<p align="center">
+<img src="https://www.ccna.network/wp-content/uploads/2020/11/Padroes-Ethernet-no-Sublayer-MAC.png" width="550px" height="400px">
+</p>
+
+Ethernet herdada usando uma topologia de `barramento` ou `hubs`, é um meio compartilhado e `half-duplex`. Ethernet sobre um meio half-duplex usa um **método de acesso baseado em contenção** (CSMA/CD). As LANs Ethernet de hoje usam switches que operam em `full-duplex`. As comunicações full-duplex com switches Ethernet **não exigem** controle de acesso através do CSMA/CD.
+
+A `subcamada MAC` é responsável pelo **encapsulamento de dados** e **acesso à mídia**. O `encapsulamento` de dados IEEE 802.3 inclui o seguinte:
+
+- Quadro Ethernet - Esta é a estrutura interna do quadro Ethernet.
+- Endereçamento Ethernet - O quadro Ethernet inclui um endereço MAC de origem e de destino.
+- Detecção de erro Ethernet - O quadro Ethernet inclui um trailer de sequência de verificação de quadros (FCS) usado para detecção de erros.
+
+# Quadro Ethernet
+
+O tamanho mínimo de quadro Ethernet é **64 bytes** e o máximo é **1518 bytes**. Isso inclui todos os bytes do campo de endereço MAC de destino através do campo FCS (Frame Check Sequence). Se o tamanho de um quadro transmitido for **menor que o mínimo** ou **maior que o máximo**, o dispositivo receptor **descarta** o quadro.
+
+<p align="center">
+<img src="https://www.ccna.network/wp-content/uploads/2020/11/Campos-Ethernet-Frame.png" width="750px" height="350px">
+</p>
+
+|Campos|Descrição|
+|:---:|:---|
+|Preâmbulo|O preâmbulo (7 bytes) permite que o receptor se ajuste ao sinal e esteja pronto para processar o quadro que está prestes a ser recebido|
+|SFD|O delimitador de quadro (1 byte) é utilizado para indicar o início real do quadro. Ele sinaliza ao dispositivo receptor que os dados que se seguem fazem parte de um quadro Ethernet|
+|Endereço MAC de destino|Este campo (6 bytes) é o identificador do destinatário desejado. Se houver uma correspondência, o aceita o quadro|
+|Endereço MAC de origem|Esse campo (6 bytes) identifica a NIC ou interface de origem do quadro|
+|Tipo/Comprimento|Um campo (2 bytes) que indica o protocolo da camada superior encapsulado no quadro, com valores comuns como 0x800 para IPv4 e 0x86DD para IPv6|
+|Dados|Este campo (46 - 1500 bytes) contém os dados da camada superior, como um pacote IPv4|
+|FCS|A sequência de verificação de quadro (4 bytes) utiliza uma verificação de redundância cíclica (CRC) para detectar erros. Se os cálculos não coincidem, o quadro é descartado, indicando possível alteração nos dados|
+
+## Processamento de quadros Ethernet
+
+O endereço MAC é codificado na memória somente leitura (ROM) na NIC. **Quando o computador é inicializado**, a NIC copia seu endereço MAC da ROM para a RAM. 
+
+Quando uma NIC recebe um quadro Ethernet, examina o **endereço MAC de destino** para verificar se corresponde ao endereço MAC físico armazenado na RAM. Se não houver correspondência, o dispositivo descartará o quadro. 
+
+Caso haja, ele passará o quadro para cima nas camadas OSI, onde o processo de desencapsulamento ocorre.
+
+**Qualquer dispositivo** que seja a origem ou o destino de um quadro Ethernet terá uma NIC Ethernet e, portanto, um endereço MAC.
+
+# Endereço MAC
+
+O `endereço MAC`, ou endereço Ethernet, é usado para **identificar os dispositivos físicos** de origem e destino (NICs) no segmento de rede local. O endereçamento MAC fornece um método para identificação de dispositivo na camada de enlace de dados do modelo OSI.
+
+Um endereço MAC Ethernet consiste em um **valor binário de 48 bits**. `Hexadecimal` é usado para **identificar um endereço Ethernet** porque um único dígito hexadecimal representa quatro bits binários. Portanto, um endereço MAC Ethernet de 48 bits pode ser expresso usando apenas 12 valores hexadecimais.
+
+Todos os endereços MAC **devem ser exclusivos** do dispositivo Ethernet ou da interface Ethernet. Para garantir isso, todos os fornecedores que vendem dispositivos Ethernet **devem se registrar** no `IEEE` para obter um código hexadecimal exclusivo chamado `identificador exclusivo organizacionalmente` (OUI).
+
+Quando um fornecedor atribui um endereço MAC a um dispositivo ou interface Ethernet, o fornecedor deve fazer o seguinte:
+
+1. Use sua OUI atribuída como os primeiros 6 dígitos hexadecimais.
+2. Atribua um valor exclusivo nos últimos 6 dígitos hexadecimais.
+
+Portanto, um endereço MAC Ethernet consiste em um código OUI do fornecedor hexadecimal seguido por um valor hexadecimal atribuído ao fornecedor.
+
+Na Ethernet, são utilizados diferentes endereços MAC para comunicação unicast, broadcast e multicast da Camada 2.
+
+## Endereço MAC unicast
+
+Um `endereço unicast` identifica um dispositivo específico em uma rede. Quando um quadro Ethernet é enviado para um endereço MAC unicast, ele é entregue apenas ao dispositivo que possui esse endereço.
+
+O processo que um host de origem usa para determinar o endereço MAC de destino associado a um endereço IPv4 é conhecido como `ARP` (Address Resolution Protocol). Para um endereço IPv6, é conhecido como `ND` (Neighbour Discovery Discovery).
+
+O endereço MAC de origem **deve ser sempre** unicast.
+
+## Endereço MAC multicast
+
+Um `endereço multicast` é utilizado para enviar dados a um **grupo específico** de dispositivos. O primeiro byte de um endereço MAC multicast **sempre começa com 01-00-5E**, seguido pelo identificador do grupo. 
+
+Apenas os dispositivos que fazem parte desse grupo específico processam o quadro multicast.
+
+Protocolos de roteamento e outros protocolos de rede usam endereçamento multicast. Aplicativos como software de vídeo e imagem também podem usar endereçamento multicast, embora aplicativos multicast não sejam tão comuns.
+
+## Endereço MAC broadcast
+
+Um `endereço broadcast` é usado para enviar dados para todos os dispositivos em uma rede local (LAN). O endereço MAC de broadcast **é sempre** FF:FF:FF:FF:FF:FF.
+
+Quando um quadro é enviado para esse endereço, **todos os dispositivos conectados à mesma rede** recebem o quadro, independentemente do seu endereço MAC específico.
+
+# Tabela de endereçamentos MAC
+
+Um switch Ethernet da camada 2 usa endereços MAC da camada 2 para **tomar decisões de encaminhamento**. Um switch Ethernet examina sua `tabela de endereços MAC` para tomar uma decisão de encaminhamento para cada quadro.
+
+O switch **cria a tabela de endereços MAC dinamicamente** examinando o endereço MAC de origem dos quadros recebidos em uma porta. O switch **encaminha** os quadros procurando uma correspondência entre o **endereço MAC de destino no quadro** e uma **entrada na tabela de endereços MAC**.
+
+|Porta|Endereço|
+|:---:|:---:|
+|1|00-0A-0A-23-1F-12|
+|2|AA-O2-FF-00-0D-57|
+
+## Aprendizado
+
+**Todo quadro que entra em um switch é verificado** quanto ao aprendizado de novas informações. Isso é feito examinando o **endereço MAC de origem** do quadro e o **número da porta** em que o quadro entrou no switch. 
+
+Se o endereço MAC de origem **não existe**, **é adicionado à tabela** juntamente com o número da porta de entrada. 
+
+Se o endereço MAC de origem **existir**, o switch **atualizará o cronômetro** de atualização para essa entrada na tabela.
+
+## Encaminhamento
+
+Se o endereço MAC de destino for um `endereço unicast`, o switch procurará uma correspondência em sua tabela de endereços MAC.
+
+Se o endereço MAC de destino **estiver** na tabela, ele encaminhará o quadro pela **porta especificada**.
+
+Se o endereço MAC de destino **não estiver** na tabela, o switch encaminhará o quadro por **todas as portas**, exceto a de entrada. Isso é chamado de unicast desconhecido.
