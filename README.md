@@ -184,6 +184,29 @@ As anotações incluem pontos-chave dos temas discutidos, destacando partes impo
 </ul>
 </details>
 
+<details>
+<summary>Camada de Rede</summary>
+<ul>
+    <li><a href="#fundamentos">Fundamentos</a></li>
+    <li><a href="#endereçamento">Endereçamento</a></li>
+    <li><a href="#encapsulamento">Encapsulamento</a></li>
+    <li><a href="#ip">IP</a>
+        <ul>
+            <li><a href="#ipv4">IPv4</a></li>
+            <li><a href="#ipv6">IPv6</a></li>
+        </ul>
+    </li>
+    <li><a href="#roteamento">Roteamento</a>
+        <ul>
+            <li><a href="#gateway-padrão">Gateway padrão</a></li>
+            <li><a href="#tabela-de-roteamento">Tabela de roteamento</a></li>
+            <li><a href="#roteamento-estático">Roteamento estático</a></li>
+            <li><a href="#roteamento-dinâmico">Roteamento dinâmico</a></li>
+        </ul>
+    </li>
+</ul>
+</details>
+
 # Componentes de rede
 
 As redes de computadores são compostas por vários elementos que permitem a comunicação e a troca de dados entre dispositivos. Os principais componentes de uma rede incluem hosts, dispositivos finais, dispositivos intermediários e meios de rede. 
@@ -1434,3 +1457,257 @@ Se o endereço MAC de destino for um `endereço unicast`, o switch procurará um
 Se o endereço MAC de destino **estiver** na tabela, ele encaminhará o quadro pela **porta especificada**.
 
 Se o endereço MAC de destino **não estiver** na tabela, o switch encaminhará o quadro por **todas as portas**, exceto a de entrada. Isso é chamado de unicast desconhecido.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br><br><br><br><hr>
+<div align="center">
+    <p><strong>Módulo Anterior:</strong> Switching Ethernet</p>
+    <p><strong>Próximo Módulo:</strong> Camada de rede</p>
+    <a href="#redes-de-computadores-i">Voltar ao topo &#8593;</a>
+</div>
+<hr><br><br><br><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Fundamentos
+
+A `camada de rede`, ou Camada OSI 3, fornece serviços para **gerenciar o endereçamento** e o **roteamento** de pacotes de dados entre **diferentes redes**. Ela determina como os dados são enviados de um dispositivo de origem para um dispositivo de destino, potencialmente através de múltiplas redes.
+
+O IP versão 4, *IPv4*, e IP versão 6, `IPv6`, são os principais protocolos de comunicação de camada de rede. Outros protocolos de camada de rede incluem protocolos de roteamento, como `OSPF` (Open Shortest Path First) e protocolos de mensagens, como `ICMP` (Internet Control Message Protocol).
+
+Ao contrário da camada de enlace de dados, que utiliza `endereços físicos` (como endereços MAC), a camada de rede utiliza **endereços lógicos**, como endereços `IP`. Isso permite que os dispositivos sejam **identificados em uma rede global**, como a Internet.
+
+Para realizar comunicações de ponta a ponta através dos limites da rede, os protocolos de camada de rede executam quatro operações básicas:
+
+|Operações|Descrição|
+|:---:|:---|
+|Endereçamento|Os dispositivos finais devem ser configurados com um endereço IP exclusivo para identificação na rede|
+|Encapsulamento|A camada de rede encapsula a unidade de dados de protocolo (PDU) da camada de transporte em um pacote|
+|Roteamento|A camada de rede fornece serviços para direcionar os pacotes para um host de destino em outra rede. Para trafegar para outras redes, o pacote deve ser processado por um roteador|
+|Desencapsulamento|Desencapsula o pacote recebido, se o endereço IP de destino corresponder com o próprio endereço IP|
+
+# Endereçamento
+
+O `endereçamento` na camada de rede envolve a **atribuição de endereços IP** a dispositivos, permitindo que pacotes de dados sejam enviados e recebidos de forma correta. 
+
+**Cada dispositivo** em uma rede recebe um **endereço IP único**, que serve como seu identificador. O endereço IP é crucial para **definir a origem e o destino dos pacotes**, permitindo que os dados sejam encaminhados pelos roteadores até o destinatário correto. 
+
+O endereçamento IP pode ser tanto `IPv4` quanto `IPv6`, com o IPv6 oferecendo uma maior capacidade de endereçamento.
+
+# Encapsulamento
+
+A camda de rede encapsula o **segmento** da `camada de transporte` ou outros dados adicionando um **cabeçalho IP**. O cabeçalho IP é usado para entregar o pacote ao host de destino.
+
+O cabeçalho IP é examinado por dispositivos de Camada 3, **roteadores** e **switches**, à medida que viaja através de uma rede até seu destino.
+
+É importante notar que as informações de endereçamento IP **tendem a permanecer as mesmas** desde o momento em que o pacote sai do host de origem até chegar ao host de destino.
+
+# IP
+
+O IP foi desenvolvido como um protocolo com baixa sobrecarga. Ele fornece apenas as funções necessárias para **enviar um pacote de uma origem a um destino** por um sistema interconectado de redes. 
+
+O protocolo não foi projetado para rastrear e gerenciar o fluxo de pacotes. Essas funções, se exigido, são realizadas por outros protocolos em outras camadas, principalmente TCP na Camada 4.
+
+### Sem conexão
+
+O IP opera de forma "sem conexão", o que significa que não estabelece uma conexão dedicada antes de enviar pacotes. Em vez disso, **cada pacote é enviado independentemente**, sem uma sessão pré-estabelecida entre o remetente e o destinatário. 
+
+Essa abordagem torna o IP mais leve e rápido, já que **não há necessidade** de configurar uma conexão antes de enviar dados.
+
+### Melhor esforço
+
+O IP é descrito como um protocolo "melhor esforço", o que significa que **não oferece garantias sobre a entrega de pacotes**. 
+
+Não há mecanismo para garantir que os pacotes sejam entregues ou que sejam entregues na ordem correta. Pacotes podem ser perdidos, duplicados ou chegar fora de sequência, e o IP não tem como detectar ou corrigir esses problemas. 
+
+Essa característica é uma das razões pelas quais outros protocolos, como o `TCP`, são frequentemente usados em conjunto com o IP para aplicações que exigem entrega confiável.
+
+### Independente da mídia
+
+O IP é projetado para ser **independente do meio físico** utilizado para transmitir os dados. Isso significa que ele pode funcionar sobre diferentes tipos de tecnologias de rede, como cabos de cobre, fibra ótica ou conexões sem fio. 
+
+Essa flexibilidade permite que o IP seja amplamente adotado em várias plataformas e tecnologias de rede, facilitando a comunicação entre dispositivos diversos.
+
+## IPv4
+
+O `IPv4` é um dos principais protocolos de comunicação de camada de rede. O **cabeçalho** do pacote IPv4 é usado para **garantir** que esse pacote seja **entregue para sua próxima parada** no caminho para seu dispositivo final de destino.
+
+Os valores binários de cada campo do cabeçalho **identificam várias configurações** do pacote IP.
+
+<p align="center">
+<img src="https://www.ccna.network/wp-content/uploads/2020/12/Campos-no-cabecalho-do-pacote-IPv4.png" width="550px" height="400px">
+</p>
+
+Campos significativos no cabeçalho IPv4 incluem o seguinte:
+
+|Campos|Descrição|
+|:---:|:---|
+|Versão|Contém um valor binário de 4 bits definido como 0100 que identifica isso como um pacote IPv4|
+|Serviços diferenciados (DS)|Anteriormente chamado de campo tipo de serviço (ToS), o campo DS é um campo de 8 bits usado para determinar a prioridade de cada pacote|
+|Tempo de vida (TTL)|Contém um valor binário de 8 bits usado para limitar a vida útil de um pacote que é diminuído em um cada vez que o pacote é processado por um roteador|
+|Protocolo|Este campo é usado para identificar o próximo nível de protocolo. O valor binário de 8 bits indica o tipo de carga de dados que o pacote está carregando|
+|Endereço IPv4 de origem|Contém um valor binário de 32 bits que representa o endereço IPv4 de origem do pacote|
+|Endereço IPv4 de destino|Contém um valor binário de 32 bits que representa o endereço IPv4 de destino do pacote|
+
+### Limitações
+
+Ao longo dos anos, protocolos e processos adicionais foram desenvolvidos para enfrentar novos desafios. No entanto, mesmo com alterações, ele ainda enfrenta três grandes problemas:
+
+|Problemas|Descrição|
+|Esgotamento do endereço IPv4|O IPv4 tem um número limitado de endereços públicos exclusivos disponíveis|
+|Falta de conectividade ponto a ponto|Network Address Translation (NAT) oculta o endereço IPv4 de um host de rede interna, o que pode ser problemático para tecnologias que exigem conectividade de ponta a ponta|
+|Maior complexidade da rede|Embora o NAT tenha ampliado a vida útil do IPv4, ele só se destinava a ser um mecanismo de transição para o IPv6. O NAT em suas várias implementações cria complexidade adicional na rede, criando latência e dificultando a solução de problemas|
+
+## IPv6
+
+O `IPv6` é a **versão mais recente** do protocolo de comunicação da camada de rede, projetada para superar as limitações do IPv4. 
+
+Uma das principais motivações para o desenvolvimento do IPv6 foi o esgotamento dos **endereços disponíveis no IPv4**, que suporta cerca de 4 bilhões de endereços. O IPv6, por outro lado, utiliza **endereços de 128 bits**, permitindo uma quantidade praticamente ilimitada de endereços.
+
+Com um número tão grande de endereços IPv6 públicos, o `NAT` entre um endereço IPv4 privado e um IPv4 público não é necessário. Isso evita alguns dos problemas induzidos por NAT enfrentados por aplicativos que exigem conectividade de `ponta a ponta`.
+
+O cabeçalho IPv6 foi simplificado com menos campos:
+
+<p align="center">
+<img src="https://www.ccna.network/wp-content/uploads/2020/12/Cabecalho-de-pacote-IPv6.png" width="550px" height="400px">
+</p>
+
+Os campos no cabeçalho do pacote IPv6 incluem o seguinte:
+
+|Campos|Descrição|
+|:---:|:---|
+|Versão|Este campo contém um valor binário de 4 bits definido como 0110 que identifica isso como um pacote IP versão 6|
+|Classe de tráfego|Este campo de 8 bits é equivalente ao campo DSv (Serviços diferenciados de IPv4)|
+|Etiqueta de fluxo|Este campo de 20 bits sugere que todos os pacotes com a mesma etiqueta de fluxo recebam o mesmo tipo de manipulação pelos roteadores|
+|Comprimento da carga útil|Este campo de 16 bits indica o comprimento da parte dos dados ou da carga útil do pacote IPv6, não incluindo o comprimento do cabeçalho IPv6|
+|Próximo cabeçalho|Este campo de 8 bits é equivalente ao campo Protocolo IPv4. Ele exibe o tipo de carga de dados que o pacote está carregando|
+|Limite de salto|Este campo de 8 bits substitui o campo TTL IPv4. Esse valor é subtraído de um por cada roteador que encaminha o pacote|
+|Endereço IPv6 de origem|Este campo de 128 bits identifica o endereço IPv6 do host de envio|
+|Endereço IPv6 de destino|Este campo de 128 bits identifica o endereço IPv6 do host de recebimento.
+Um pacote IPv6|
+
+Ao contrário de IPv4, os roteadores **não fragmentam** os pacotes IPv6 roteados.
+
+# Roteamento
+
+O `roteamento` é um processo que envolve a **identificação do melhor caminho** para enviar pacotes de dados entre dispositivos. 
+
+Em **redes locais**, dispositivos como `switches` ou pontos de acesso sem fio facilitam a comunicação entre hosts. Isso permite que pacotes sejam enviados **diretamente entre eles**, **sem a necessidade de roteamento**, quando os dispositivos estão na mesma rede.
+
+Para se comunicar com hosts **fora da rede local,** o **roteamento se torna necessário**. O pacote é **enviado ao gateway padrão**, que é o roteador conectado à rede local. O roteador analisa sua `tabela de roteamento` para determinar o melhor caminho para o destino remoto, encaminhando o pacote através da rede e passando por vários roteadores até que ele chegue ao host de destino.
+
+|Rotas (IP de destino)|Máscara|Gateway (IP do roteador)|Próximo Salto|Tipo|
+|:---:|:---:|:---:|:---:|:---:|
+|192.168.10.0|255.255.255.0|192.168.10.1|G0/0/0|Estática|
+|209.165.200.224|	255.255.255.252|	209.165.200.225|	G0/0/1|	Estática|
+|10.1.1.0|	255.255.255.0|	192.168.20.2|	via R2|	Dinâmica|
+|0.0.0.0|	0.0.0.0|	192.168.10.254|	via R2|	Estática|
+
+`Roteamento estático` e `roteamento dinâmico` são os dois principais métodos usados para **configurar** e **atualizar** as tabelas de roteamento em roteadores.
+
+## Gateway Padrão
+
+O `gateway padrão` é o dispositivo de rede, roteador ou switch da Camada 3, que pode rotear o tráfego para outras redes. O tráfego não pode ser encaminhado para fora da rede local se **não houver gateway padrão**, o endereço de gateway padrão **não estiver configurado** ou o gateway padrão estiver **inativo**.
+
+Comparando a rede com uma sala, o gateway padrão é a porta. Se você quiser ir para outra sala (rede), vai precisar encontrar essa porta.
+
+A configuração do gateway padrão cria uma **rota padrão** na tabela de roteamento do host. Uma `rota padrão` é a rota ou o caminho que o computador usa quando tenta **entrar em contato** com uma rede remota.
+
+## Tabela de roteamento
+
+A tabela de roteamento é uma ferramenta crítica utilizada tanto por hosts quanto por roteadores para gerenciar a entrega de pacotes de dados em uma rede.
+
+Em um host do Windows, o comando **route print** ou **netstat -r** pode ser usado para **exibir a tabela de roteamento** do host. Ambos os comandos geram a mesma saída.
+
+O comando, executado no modo EXEC privilegiado, **show ip route** é usado para exibir a tabela de roteamento IPv4 em um roteador Cisco IOS.
+
+### Hosts
+
+Para determinar se o pacote deve ser enviado a um host `local` ou `remoto`, o dispositivo de origem utiliza diferentes métodos. Em `IPv4`, ele usa sua **máscara de sub-rede** e seu **próprio endereço IP** para verificar se o endereço de destino está na mesma rede. Em `IPv6`, os roteadores locais anunciam o **prefixo da rede**, permitindo que os dispositivos identifiquem se o destino está na mesma rede.
+
+A tabela de roteamento em hosts inclui uma `rota padrão`, que é o **gateway padrão**, responsável por encaminhar pacotes destinados a redes remotas. Ela também contém informações sobre os **dispositivos na rede local** e **como alcançar o gateway padrão**. 
+
+|Destino|Máscara de Sub-rede|Gateway|
+|:---:|:---:|:---:|
+|192.168.10.0|255.255.255.0|0.0.0.0|
+|0.0.0.0|0.0.0.0|192.168.10.1|
+
+No IPv4, o host recebe o endereço **IPv4 do gateway padrão dinamicamente do DHCP** (Dynamic Host Configuration Protocol) ou configurado manualmente. No IPv6, o roteador anuncia o endereço de gateway padrão ou o host pode ser **configurado manualmente**.
+
+Ao enviar pacotes, um host verifica sua tabela para determinar se o destino está na mesma rede local ou se deve usar o gateway para acessar redes externas.
+
+### Roteadores
+
+Um `roteador` mantém uma tabela que não apenas registra informações sobre **redes locais** e **gateways padrão**, mas também contém informações sobre **várias rotas para diferentes redes remotas**. Essa tabela é **constantemente atualizada** usando protocolos de roteamento dinâmico. 
+
+Os roteadores utilizam suas tabelas para **determinar o melhor próximo salto** para cada pacote, assegurando que ele siga o **caminho mais curto** ou menos congestionado até o destino final. O roteador **examina o endereço IP de destino** do pacote e pesquisa sua **tabela de roteamento** para determinar para onde encaminhar o pacote.
+
+|Rotas (IP de destino)|Próximo salto|
+|:---:|:---:|
+|192.168.10.0 /24|G0/0/0|
+|209.165.200.224 /30|G0/0/1|
+|10.1.1.0 /24|via R2|
+|Rota padrão 0.0.0.0 /0|via R2|
+
+A tabela de roteamento armazena três tipos de entradas de rota:
+
+- `Redes conectadas diretamente` - Essas são redes às quais o roteador está **diretamente conectado por meio de suas interfaces**. Quando uma interface de roteador está configurada com um endereço IP e está ativa, o roteador automaticamente adiciona uma entrada de rota para essa rede na sua tabela de roteamento.
+- `Redes remotas` - Essas entradas de rotas de rede são conectadas a outros roteadores. Os roteadores aprendem sobre redes remotas sendo inseridas manualmente, **usando rotas estáticas**, ou dinamicamente, **usando um protocolo de roteamento dinâmico**.
+- `Rota padrão` — A rota padrão é uma "rota de escape" para pacotes cujo **destino não corresponde a nenhuma outra entrada** na tabela de roteamento. O roteador encaminha esses pacotes para um gateway de último recurso, que é **normalmente outro roteador**.
+
+`Roteamento estático` e `roteamento dinâmico` são os dois principais métodos usados para **configurar** e **atualizar** as tabelas de roteamento em roteadores.
+
+## Roteamento estático
+
+No `roteamento estático`, o administrador de rede **configura manualmente as rotas** na tabela de roteamento.. A rota estática inclui o **endereço de rede remota** e o **endereço IP do roteador** de salto seguinte.
+
+Se houver uma alteração na topologia da rede, a rota estática **não será atualizada automaticamente** e **deverá ser reconfigurada manualmente**.
+
+Uma rota estática é apropriada para uma **rede pequena** e quando há poucos ou nenhum vínculo redundante.
+
+Uma rota estática é comumente usada com um **protocolo de roteamento dinâmico** para configurar uma `rota padrão`.
+
+## Roteamento dinâmico
+
+No `roteamento dinâmico`, os roteadores usam **protocolos de roteamento** para trocar informações sobre a rede e automaticamente atualizar suas tabelas de roteamento conforme a topologia da rede muda.
+
+A configuração básica requer apenas que o administrador de rede habilite as `redes conectadas diretamente` dentro do protocolo de roteamento dinâmico. O protocolo de roteamento dinâmico fará automaticamente o seguinte:
+
+- Descobrir redes remotas.
+- Manter as informações de roteamento atualizadas.
+- Escolha o melhor caminho para as redes de destino.
+- Tente encontrar um novo melhor caminho se o caminho atual não estiver mais disponível.
+
+Quando um roteador é configurado manualmente com uma rota estática ou aprende sobre uma rede remota dinamicamente usando um protocolo de roteamento dinâmico, o endereço de rede remota e o endereço de próximo salto são inseridos na tabela de roteamento IP.
