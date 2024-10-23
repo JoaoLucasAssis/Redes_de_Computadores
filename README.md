@@ -1617,6 +1617,7 @@ Campos significativos no cabeçalho IPv4 incluem o seguinte:
 Ao longo dos anos, protocolos e processos adicionais foram desenvolvidos para enfrentar novos desafios. No entanto, mesmo com alterações, ele ainda enfrenta três grandes problemas:
 
 |Problemas|Descrição|
+|:---|:---|
 |Esgotamento do endereço IPv4|O IPv4 tem um número limitado de endereços públicos exclusivos disponíveis|
 |Falta de conectividade ponto a ponto|Network Address Translation (NAT) oculta o endereço IPv4 de um host de rede interna, o que pode ser problemático para tecnologias que exigem conectividade de ponta a ponta|
 |Maior complexidade da rede|Embora o NAT tenha ampliado a vida útil do IPv4, ele só se destinava a ser um mecanismo de transição para o IPv6. O NAT em suas várias implementações cria complexidade adicional na rede, criando latência e dificultando a solução de problemas|
