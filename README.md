@@ -238,6 +238,29 @@ As anotações incluem pontos-chave dos temas discutidos, destacando partes impo
 </ul>
 </details>
 
+<details>
+    <summary>Endereçamento IPv4</summary>
+    <ul>
+        <li><a href="#estrutura">Estrutura</a></li>
+        <li><a href="#máscara-de-sub-rede">Máscara de sub-rede</a></li>
+        <li><a href="#comprimento-do-prefixo">Comprimento do prefixo</a></li>
+        <li><a href="#tipos-de-endereços-ipv4">Tipos de endereço IPv4</a>
+            <ul>
+                <li><a href="#ipv4-privados-e-públicos">IPv4 públicos e privados</a></li>
+                <li><a href="#endereços-de-loopback">Endereços de loopback</a></li>
+            </ul>
+        </li>
+        <li><a href="#nat">NAT</a></li>
+        <li><a href="#segmentação-de-rede">Segmentação de rede</a>
+            <ul>
+                <li><a href="#sub-redes-ipv4">Sub-redes IPv4</a></li>
+                <li><a href="#vlsm">VLSM</a></li>
+            </ul>
+        </li>
+        <li><a href="#limitações">Limitações</a></li>
+    </ul>
+</details>
+
 # Componentes de rede
 
 As redes de computadores são compostas por vários elementos que permitem a comunicação e a troca de dados entre dispositivos. Os principais componentes de uma rede incluem hosts, dispositivos finais, dispositivos intermediários e meios de rede. 
@@ -1612,15 +1635,7 @@ Campos significativos no cabeçalho IPv4 incluem o seguinte:
 |Endereço IPv4 de origem|Contém um valor binário de 32 bits que representa o endereço IPv4 de origem do pacote|
 |Endereço IPv4 de destino|Contém um valor binário de 32 bits que representa o endereço IPv4 de destino do pacote|
 
-### Limitações
-
-Ao longo dos anos, protocolos e processos adicionais foram desenvolvidos para enfrentar novos desafios. No entanto, mesmo com alterações, ele ainda enfrenta três grandes problemas:
-
-|Problemas|Descrição|
-|:---|:---|
-|Esgotamento do endereço IPv4|O IPv4 tem um número limitado de endereços públicos exclusivos disponíveis|
-|Falta de conectividade ponto a ponto|Network Address Translation (NAT) oculta o endereço IPv4 de um host de rede interna, o que pode ser problemático para tecnologias que exigem conectividade de ponta a ponta|
-|Maior complexidade da rede|Embora o NAT tenha ampliado a vida útil do IPv4, ele só se destinava a ser um mecanismo de transição para o IPv6. O NAT em suas várias implementações cria complexidade adicional na rede, criando latência e dificultando a solução de problemas|
+Para mais informações sobre endereçamento IPv4, [clicar aqui](#estrutura).
 
 ## IPv6
 
@@ -1995,3 +2010,240 @@ Para configurar um gateway padrão IPv4 em um switch, use o comando de configura
 Switch# configure terminal
 Switch(config)# ip default-gateway ip-address
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br><br><br><br><hr>
+<div align="center">
+    <p><strong>Módulo Anterior:</strong> Roteador básico</p>
+    <p><strong>Próximo Módulo:</strong> Endereçamento IPv4</p>
+    <a href="#redes-de-computadores-i">Voltar ao topo &#8593;</a>
+</div>
+<hr><br><br><br><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Estrutura
+
+Um endereço `IPv4` é um endereço hierárquico de 32 bits, composto por uma **parte da rede** e uma **parte do host**.
+
+Os bits na parte de rede do endereço devem ser iguais em todos os dispositivos que **residem na mesma rede**.
+
+Os bits na parte de host do endereço devem ser exclusivos para **identificar um host específico** dentro de uma rede.
+
+# Máscara de sub-rede
+
+Uma `máscara de sub-rede` IPv4 é um valor de 32 bits que **diferencia** a parte da rede do endereço da parte do host.
+
+Ela não contém a parte da rede ou host de um endereço IPv4, apenas informa ao computador onde procurar cada parte do endereço IPv4.
+
+<p align="center">
+  <img src="https://www.initialboard.com/wp-content/uploads/2023/02/IP-address-melalui-bilangan-bine.png" width="500px" height="300px">
+</p>
+
+Para identificar as partes da rede e do host de um endereço IPv4, a máscara de sub-rede é comparada com o endereço IPv4 **bit por bit**, da **esquerda para a direita**.
+
+# Comprimento do prefixo
+
+O `comprimento do prefixo` é o **número de bits definido como 1 na máscara de sub-rede**. Está escrito em "notação de barra", que é anotada por uma barra (/) seguida pelo número de bits definido como 1.
+
+|Máscara de Sub-Rede|Endereço de 32 bits|Comprimento do Prefixo|
+|:---:|:---:|:---:|
+|255.0.0.0|11111111.00000000.00000000.00000000|/8|
+|255.255.0.0|11111111.11111111.00000000.00000000|/16|
+|255.255.255.0|11111111.11111111.11111111.00000000|/24|
+|255.255.255.128|11111111.11111111.11111111.10000000|/25|
+|255.255.255.192|11111111.11111111.11111111.11000000|/26|
+|255.255.255.224|11111111.11111111.11111111.11100000|/27|
+|255.255.255.240|11111111.11111111.11111111.11110000|/28|
+|255.255.255.248|11111111.11111111.11111111.11111000|/29|
+|255.255.255.252|11111111.11111111.11111111.11111100|/30|
+
+# Tipos de endereços IPv4
+
+Dentro de cada rede há três tipos de endereços IP:
+
+- Endereço de rede.
+- Endereços de host.
+- Endereço de broadcast.
+
+<p align="center">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDS8X01Ie1u38JjjNv__88KL8bhy0ahyuV7w&s" width="500px" height="300px">
+</p>
+
+|Endereços|Descrição|
+|:---:|:---|
+|Endereço de rede|Representa uma rede específica. Definido com todos os bits sendo 0 na parte de host do endereço IP|
+|Endereço de host|Endereços que podem ser atribuídos a um dispositivo. Podem ter quase qualquer combinação de bits na parte do host|
+|Endereço de broadcast|Usado quando é necessário acessar todos os dispositivos na rede IPv4. Definido com todos os bits sendo 1 na parte de host do endereço IP. Roteadores não propagam broadcasts.|
+
+## IPv4 privados e públicos
+
+Alguns endereços IPv4 **não podem ser usados** para sair para a Internet, e outros são especificamente alocados para roteamento para a internet.
+
+- IPv4 públicos: são endereços roteados globalmente entre os roteadores do provedor de serviços de Internet (ISP).
+- IPv4 privados: não são endereços exclusivos e podem ser usados internamente em qualquer rede.
+
+|Endereço de rede privado|Intervalo de endereços privados|
+|:---:|:--:|
+|10.0.0.0/8|10.0.0.0 - 10.255.255.255|
+|172.16.0.0/12|172.16.0.0 - 172.31.255.255|
+|192.168.0.0/16|192.168.0.0 - 192.168.255.255|
+
+A maioria das redes internas usam endereços IPv4 privados para endereçar todos os dispositivos internos. No entanto, os endereços privados **não são globalmente roteáveis**.
+
+Para comunicações fora da rede local, utiliza-se o [NAT](#nat) para converter um IPv4 privado em um IPv4 público, permitindo o pacote ser roteado globalmente até o destino final.
+
+## Endereços de loopback
+
+Os `endereços de loopback` são mais comumente identificados como apenas 127.0.0.1, esses são endereços especiais usados por um host para direcionar o tráfego para si próprio.
+
+# NAT
+
+A maioria das redes internas usam endereços IPv4 privados para endereçar todos os dispositivos internos. No entanto, os endereços privados **não são globalmente roteáveis**.
+
+Quando um pacote é enviado para fora de sua rede, esse pacote tem um endereço IPv4 privado de origem e um endereço IPv4 público de destino. Antes que o ISP possa encaminhar esse pacote, ele deve traduzir o endereço IPv4 de origem, que é um endereço privado, para um endereço IPv4 público usando a Conversão de Endereços de Rede (NAT).
+
+O `NAT` é usado para **converter entre endereços IPv4 privados e IPv4 públicos**. Isso geralmente é feito no roteador que conecta a rede interna à rede ISP.
+
+# Segmentação de rede
+
+Um grande domínio de broadcast é uma rede que conecta vários hosts. Um problema desse tipo de domínio é que os hosts podem gerar broadcasts em excesso e afetar a rede de forma negativa.
+
+Em redes grandes, para evitar o **excesso de comunicações broadcasts** enviadas pelo ARP, ocorre o processo de `segmentação da rede` em sub-redes menores.
+
+A segmentação da rede **reduz o tráfego total** da rede e **melhora seu desempenho**. Além disso, permite que o administrador **implemente políticas de segurança**. 
+
+<p align="center">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD6kjjAR_MWUYh0icSSS1YOccuksRBxegSCKhKXhNECK7P2aNqpHeU4MJasppzr-eaBwM&usqp=CAU" width="500px" height="300px">
+</p>
+
+
+Os administradores de rede podem criar sub-redes usando qualquer outra divisão que faça sentido para a rede, seja por localização em um prédio, grupos, funções ou tipo de dispositivo.
+
+Esta é a base da divisão em sub-redes: usar bits de host para criar sub-redes adicionais.
+
+## Sub-redes IPv4
+
+As `sub-redes IPv4` são criadas com **um ou mais bits de host** sendo usados como **bits de rede**. Isso é feito estendendo-se a máscara de sub-rede para pegar emprestado alguns dos bits da parte de host do endereço e criar bits de rede adicionais.
+
+Quanto mais bits de host forem emprestados, **mais sub-redes poderão ser definidas**. 
+
+Quanto mais bits forem emprestados para aumentar o número de sub-redes **reduz o número de hosts por sub-rede**.
+
+É mais fácil dividir redes em sub-redes **nos limites dos octetos**: /8, /16 e /24.
+
+|Prefixo|Máscara de sub-rede|Máscara de sub-rede (binário)|n° de hosts|
+|:---:|:---:|:---:|:---:|
+|/8|255.0.0.0|11111111.00000000.00000000.00000000|16.777.214|
+|/16|255.255.0.0|11111111.11111111.00000000.00000000|65.534|
+|/24|255.255.255.0|11111111.11111111.11111111.00000000|254|
+
+Entretanto, as sub-redes podem pedir emprestado bits de **qualquer posição dos bits de host** para criar outras máscaras.
+
+|Prefixo|Máscara de sub-rede|Máscara de sub-rede (binário)|n° de redes|n° de hosts|
+|:---:|:---:|:---:|:---:|:---:|
+|/25|255.255.255.128|11111111.11111111.11111111.10000000|2|126|
+|/26|255.255.255.192|11111111.11111111.11111111.11000000|4|62|
+|/27|255.255.255.224|11111111.11111111.11111111.11100000|8|30|
+|/28|255.255.255.240|11111111.11111111.11111111.11110000|16|14|
+|/29|255.255.255.248|11111111.11111111.11111111.11111000|32|6|
+|/30|255.255.255.252|11111111.11111111.11111111.11111100|64|2|
+
+> Linha /25 - O empréstimo 1 bit do quarto octeto cria 2 sub-redes que suportam 126 hosts cada
+>
+> Linha /26 - O empréstimo de 2 bits cria 4 sub-redes que suportam 62 hosts cada
+>
+> Linha /27 - O empréstimo de 3 bits cria 8 sub-redes que suportam 30 hosts cada.
+>
+> Linha /28 - O empréstimo de 4 bits cria 16 sub-redes que suportam 14 hosts cada.
+>
+> Linha /29 - O empréstimo de 5 bits cria 32 sub-redes que suportam 6 hosts cada.
+>
+> Linha /30 - O empréstimo de 6 bits cria 64 sub-redes que suportam 2 hosts cada.
+
+## VLSM
+
+É um método de dividir sub-redes mais eficiente que o tradicional, você pode alocar **somente o número de hosts necessários** da sub-rede utilizando **máscaras de tamanho variáveis**.
+
+Usando as sub-redes VLSM, as redes LAN e entre roteadores podem ser tratadas sem desperdício desnecessário.
+
+# Limitações
+
+Ao longo dos anos, protocolos e processos adicionais foram desenvolvidos para enfrentar novos desafios. No entanto, mesmo com alterações, ele ainda enfrenta três grandes problemas:
+
+|Problemas|Descrição|
+|:---|:---|
+|Esgotamento do endereço IPv4|O IPv4 tem um número limitado de endereços públicos exclusivos disponíveis|
+|Falta de conectividade ponto a ponto|Network Address Translation (NAT) oculta o endereço IPv4 de um host de rede interna, o que pode ser problemático para tecnologias que exigem conectividade de ponta a ponta|
+|Maior complexidade da rede|Embora o NAT tenha ampliado a vida útil do IPv4, ele só se destinava a ser um mecanismo de transição para o IPv6. O NAT em suas várias implementações cria complexidade adicional na rede, criando latência e dificultando a solução de problemas|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br><br><br><br><hr>
+<div align="center">
+    <p><strong>Módulo Anterior:</strong> Endereçamento IPv4</p>
+    <p><strong>Próximo Módulo:</strong> -</p>
+    <a href="#redes-de-computadores-i">Voltar ao topo &#8593;</a>
+</div>
+<hr><br><br><br><br>
