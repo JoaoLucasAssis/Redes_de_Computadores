@@ -261,6 +261,55 @@ As anotações incluem pontos-chave dos temas discutidos, destacando partes impo
     </ul>
 </details>
 
+<details>
+ <summary>Endereçamento IPv6</summary>
+<ul>
+    <li><a href="#formato">Formato</a>
+        <ul>
+            <li><a href="#omitir-zeros-à-esquerda">Omitir zeros à esquerda</a></li>
+            <li><a href="#dois-pontos-duplos">Dois pontos duplos</a></li>
+        </ul>
+    </li>
+    <li><a href="#comprimento-do-prefixo">Comprimento do prefixo</a></li>
+    <li><a href="#tipos-de-endereço-ipv6">Tipos de endereço IPv6</a>
+        <ul>
+            <li><a href="#unicast">Unicast</a></li>
+            <li><a href="#multicast">Multicast</a></li>
+        </ul>
+    </li>
+    <li><a href="#slaac">SLAAC</a></li>
+    <li><a href="#sub-redes-ipv6">Sub-redes IPv6</a></li>
+</ul>
+</details>
+
+<details>
+ <summary>Camada de Transporte</summary>
+<ul>
+    <li><a href="#propósito">Propósito</a></li>
+    <li><a href="#tcp">TCP</a>
+        <ul>
+            <li><a href="#recursos-tcp">Recursos</a></li>
+            <li><a href="#cabeçalho-tcp">Cabeçalho</a></li>
+            <li><a href="#remontagem-tcp">Transmissão</a></li>
+            <li><a href="#handshake">Handshake</a></li>
+            <li><a href="#controle-de-fluxo">Controle de fluxo</a></li>
+        </ul>
+    </li>
+    <li><a href="#udp">UDP</a>
+        <ul>
+            <li><a href="#recursos-udp">Recursos</a></li>
+            <li><a href="#cabeçalho-udp">Cabeçalho</a></li>
+            <li><a href="#remontagem-udp">Transmissão</a></li>
+        </ul>
+    </li>
+    <li><a href="#portas">Portas</a>
+        <ul>
+            <li><a href="#socket">Socket</a></li>
+        </ul>
+    </li>
+</ul>
+</details>
+
 # Componentes de rede
 
 As redes de computadores são compostas por vários elementos que permitem a comunicação e a troca de dados entre dispositivos. Os principais componentes de uma rede incluem hosts, dispositivos finais, dispositivos intermediários e meios de rede. 
