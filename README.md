@@ -2243,7 +2243,483 @@ Ao longo dos anos, protocolos e processos adicionais foram desenvolvidos para en
 <br><br><br><br><hr>
 <div align="center">
     <p><strong>Módulo Anterior:</strong> Endereçamento IPv4</p>
-    <p><strong>Próximo Módulo:</strong> -</p>
+    <p><strong>Próximo Módulo:</strong> Endereçamento IPv6</p>
     <a href="#redes-de-computadores-i">Voltar ao topo &#8593;</a>
 </div>
 <hr><br><br><br><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Formato
+
+Os endereços `IPv6` são muito maiores do que os endereços IPv4, razão pela qual é improvável que fiquemos sem eles.
+
+Os endereços IPv6 têm **128 bits** e são escritos como uma sequência de **valores hexadecimais**. **Cada 4 bits são representados por um único dígito hexadecimal**, totalizando 32 valores hexadecimais.
+
+Os endereços IPv6 não diferenciam maiúsculas e minúsculas e podem ser escritos tanto em minúsculas como em maiúsculas.
+
+o formato preferencial para escrever um endereço IPv6 é x: x: x: x: x: x: x: x, com cada “x” consistindo de **quatro valores hexadecimais**.
+
+Existem duas regras que ajudam a reduzir o número de dígitos necessários para representar um endereço IPv6.
+
+## Omitir zeros à esquerda
+
+A primeira regra para ajudar a reduzir a notação de endereços IPv6 é **omitir os 0s à esquerda** de qualquer seção de 16 bits ou hexteto.
+
+- `01AB` pode ser representado como `1AB`
+- `09f0` pode ser representado como `9f0`
+- `0a00` pode ser representado como `a00`
+- `00ab` pode ser representado como `ab`
+
+Essa regra se aplica **somente aos 0s à esquerda**, e **NÃO aos 0s à direita**.
+
+## Dois pontos duplos
+
+A segunda regra para ajudar a reduzir a notação de endereços IPv6 é o **uso de dois-pontos duplo** (::) para **substituir uma única sequência** de um ou mais segmentos de 16 bits (hextetos) **composta exclusivamente por 0s**.
+
+Aqui está um exemplo do uso incorreto de dois pontos: 2001:db8:0000:0000:0000:abcd:0000:1234.
+
+- `2001:db8:0000:0000:0000:abcd:0000:1234` pode ser representado como `2001:db8::abcd:0000:1234`
+
+Os dois-pontos em dobro (::) só podem ser usados **uma vez em um endereço**.
+
+Se um endereço tiver mais de uma cadeia contígua de todos os hextets 0, a prática recomendada é usar dois pontos duplos (::) **na cadeia mais longa**.
+
+# Comprimento do prefixo
+
+O comprimento do prefixo pode variar de 0 a 128. O comprimento do prefixo IPv6 recomendado para LANs e a maioria dos outros tipos de redes é /64**.
+
+<p align="center">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_cpT2kd4qUuC6fadNl-xKhPPUBN28VE9I8A&s" width="500px" height="300px">
+</p>
+
+É altamente recomendável usar um ID de interface de 64 bits para a maioria das redes. Isso ocorre porque a configuração automática de endereço sem estado, `SLAAC`, **usa 64 bits para o ID de interface**. Também facilita a criação e o gerenciamento de sub-redes.
+
+# Tipos de endereço IPv6
+
+Tal como acontece com o IPv4, existem diferentes tipos de endereços IPv6. Na verdade, existem três grandes categorias de endereços IPv6:
+
+|Endereços|Descrição|
+|:---:|:---|
+|Unicast|Um endereço IPv6 unicast identifica exclusivamente uma interface em um dispositivo habilitado para IPv6|
+|Multicast|Um endereço IPv6 multicast é usado para enviar um único pacote IPv6 para vários destinos|
+|Anycast|Um endereço IPv6 anycast é qualquer endereço IPv6 unicast que possa ser atribuído a vários dispositivos. Um pacote enviado a um endereço de anycast é roteado para o dispositivo mais próximo que tenha esse endereço. Os endereços anycast estão fora do escopo deste curso|
+
+## Unicast
+
+Um endereço IPv6 `unicast` identifica exclusivamente uma interface em um dispositivo habilitado para IPv6.
+
+Existem diferentes tipos de endereços unicast que um dispositivo IPv6 pode receber. Os endereços IPv6 normalmente têm **dois endereços unicast**.
+
+### Endereço unicast global (GUA)
+
+É **semelhante a um endereço IPv4 público**. São endereços de internet **roteáveis** e **globalmente exclusivos**. 
+
+Ele é constituído por três partes: 
+
+- O prefixo de roteamento global
+- ID da sub-rede
+- ID da interface
+
+<p align="center">
+  <img src="https://usercontent.one/wp/ipv6.diginto.se/wp-content/uploads/2023/08/pic001-ccn2-IPv6-GUA.png" width="500px" height="300px">
+</p>
+
+|Partes|Descrição|
+|:---|:---|
+|Prefixo de roteamento global|Parte de rede do endereço IPv6 que é atribuído pelo provedor (ISP),comumente sendo um prefixo de roteamento global /48|
+|ID da sub-rede|Parte separada para identificar sub-redes localmente. Quanto maior a ID da sub-rede, mais sub-redes disponíveis|
+|ID da interface|Parte de host de um endereço IPv6 que permite único host ter várias interfaces. Sub-redes /64 permitem que  dispositivos com SLAAC  criem seu próprio ID de interface de 64 bits|
+
+No momento, somente endereços unicast globais com os primeiros três bits de **001** ou **2000::/3** estão sendo atribuídos
+
+GUAs podem ser configurados estaticamente ou dinamicamente distribuídos.
+
+### Endereço LLA (Link-Local Address)
+
+Os `LLAs` são usados para se comunicar com outros dispositivos **na mesma sub-rede**. No IPv6, o termo link se refere a uma sub-rede.
+
+Há duas maneiras pelas quais um dispositivo pode obter um LLA:
+
+- Estaticamente - Isso significa que o dispositivo foi configurado manualmente.
+- Dinamicamente - Os hosts habilitados para LLA IPv6 criarão um endereço IPv6 mesmo que não tenha sido atribuído um endereço IPv6 GUA.
+
+O endereço link local é atribuído automaticamente utilizando o prefixo **FE80::/64**.
+
+Os roteadores **não encaminham** pacotes com um endereço de link local origem ou destino.
+
+Normalmente, é o LLA do roteador, e não a GUA, que é usado como o gateway padrão para outros dispositivos no link.
+
+### Endereço ULA (Unique Local Address)
+
+Os endereços `ULA` são utilizados para endereçamento local dentro de uma rede ou entre um conjunto de redes interconectadas.
+
+Os endereços ULA podem ser usados para dispositivos que nunca precisarão ou terão acesso por outra rede.
+
+Um endereço ULA **não deve** ser roteável na Internet global.
+
+## Multicast
+
+Um endereço `multicast` é usado para enviar um único pacote a um ou mais destinos (grupo multicast). Os endereços multicast IPv6 têm o prefixo ff00::/8.
+
+|Grupo|Prefixo|Descrição|
+|:---:|:---:|:---|
+|Grupo de todos os nós|ff02::1|Este é um grupo multicast ao qual todos os dispositivos habilitados para IPv6 se juntam. Isso tem o mesmo efeito que um endereço de broadcast em IPv4|
+|Grupo de todos os roteadores|ff02::2|Este é um grupo multicast ao qual todos os roteadores IPv6 ingressam. Um roteador se torna membro deste grupo quando é habilitado como roteador IPv6 com o comando de configuração global **ipv6 unicast-routing**|
+
+# SLAAC
+
+`SLAAC` é um método que permite que um dispositivo **crie seu próprio GUA sem os serviços do DHCPv6**. 
+
+Com SLAAC, os dispositivos **dependem das mensagens ICMPv6 de RA** (Anúncio de Roteador) do roteador local para obter as informações necessárias.
+
+Por padrão, a mensagem de RA sugere que o dispositivo de recebimento **use as informações dessa mensagem para criar** seu próprio endereço `IPv6 unicast global` e para todas as demais informações. Os serviços de um servidor DHCPv6 não são obrigatórios.
+
+SLAAC é stateless, o que significa que não existe servidor central alocando endereços unicast globais e mantendo uma lista de dispositivos e seus endereços.
+
+<p align="center">
+  <img src="https://usercontent.one/wp/ipv6.diginto.se/wp-content/uploads/2023/11/ipv6-001-SLAAC.png" width="500px" height="300px">
+</p>
+
+- **Prefixo** - Isso é anunciado na mensagem RA.
+- **ID da Interface** - Isso usa o processo EUI-64 ou gera um número aleatório de 64 bits, dependendo do sistema operacional do dispositivo.
+
+# Sub-redes IPv6
+
+o IPv6 foi projetado com a sub-rede em mente. Um campo de `ID de sub-rede` separado no GUA IPv6 é **usado para criar sub-redes**.
+
+Com **mais de 65.536 sub-redes** para escolher, a tarefa do administrador de redes é projetar um esquema lógico de endereçamento da rede.
+
+Para a divisão de IPv6 em sub-redes, basta **contar em ordem crescente em hexadecimal**.
+
+<p align="center">
+  <img src="https://www.dltec.com.br/blog/wp-content/uploads/2020/01/sub-rede-ipv6-exemplo-1024x471.png" width="500px" height="300px">
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br><br><br><br><hr>
+<div align="center">
+    <p><strong>Módulo Anterior:</strong> Endereçamento IPv6</p>
+    <p><strong>Próximo Módulo:</strong> Camada de Transporte</p>
+    <a href="#redes-de-computadores-i">Voltar ao topo &#8593;</a>
+</div>
+<hr><br><br><br><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Propósito
+
+A `camada de transporte` é responsável pela **comunicação lógica entre aplicativos** executados em hosts diferentes.
+
+Isso pode incluir serviços como o estabelecimento de uma **sessão temporária** entre dois hosts e a **transmissão confiável** de informações para um aplicativo.
+
+A camada de transporte **não tem conhecimento** do tipo de host de destino, o tipo de mídia pela qual os dados devem percorrer, o caminho percorrido pelos dados, o congestionamento em um link ou o tamanho da rede.
+
+Para passar fluxos de dados para os aplicativos adequados, a camada de transporte identifica o aplicativo de destino usando um identificador chamado `número da porta`.
+
+|Responsabilidades|Descrição|
+|:---:|:---|
+|Rastreamento de dados|É responsabilidade da camada de transporte **manter e monitorar** cada conjunto de dados que flui entre um aplicativo de origem e um aplicativo de destino|
+|Segmentação/remontagem|É responsabilidade da camada de transporte **dividir os dados do aplicativo em blocos de tamanho adequado**, sejam segmentos ou datagramas|
+|Adicionar cabeçalho|As  informações de cabeçalho permitem que diferentes funções sejam realizadas para o gerenciamento da comunicação de dados|
+
+A camada de transporte inclui dois protocolos:
+
+- Protocolo TCP (Transmission Control Protocol)
+- Protocolo UDP (User Datagram Protocol)
+
+# TCP
+
+O `TCP` é considerado um protocolo de camada de transporte **confiável**, completo, que **garante que todos os dados cheguem ao destino**.
+
+O TCP fornece confiabilidade e controle de fluxo usando estas operações básicas:
+
+- Número e rastreamento de segmentos de dados
+- Confirmar dados recebidos
+- Retransmitir todos os dados não confirmados após um determinado período de tempo
+- Dados de sequência que podem chegar em ordem errada
+- Enviar dados a uma taxa eficiente que seja aceitável pelo receptor
+
+O TCP deve primeiro **estabelecer uma conexão** entre o remetente e o receptor antes de manter o estado de uma conversa e rastrear as informações.
+
+`FTP`, `HTTP`, `SMTP` e `SSH` são algumas das aplicações que fazem uso do protocolo TCP.
+
+## Recursos TCP
+
+Além de suportar as funções básicas de segmentação e remontagem de dados, o TCP também fornece os seguintes serviços:
+
+- `Estabelece uma sessão` - O TCP é um protocolo orientado à conexão que negocia e **estabelece uma conexão permanente entre os dispositivos** de origem e de destino antes de encaminhar qualquer tráfego. Com o estabelecimento da sessão, os dispositivos **negociam o volume de tráfego** esperado que pode ser encaminhado em determinado momento e os dados de comunicação entre os dois podem ser gerenciados atentamente.
+- `Garante a entrega confiável` - O TCP garante que **cada segmento enviado pela fonte chegue ao destino**.
+- `Fornece entrega no mesmo pedido` - O TCP garante que os segmentos sejam remontados na ordem correta, enumerando os segmentos em sequência.
+- `Suporta controle de fluxo` - O TCP **regula o volume de dados** transmitido pelo dispositivo origem. O controle de fluxo pode impedir a necessidade de retransmissão dos dados quando os recursos do host receptor estão sobrecarregados.
+
+## Cabeçalho TCP
+
+Um segmento TCP adiciona 20 bytes (ou seja, 160 bits) de sobrecarga ao encapsular os dados da camada de aplicativo.
+
+<p align="center">
+  <img src="https://imdtec.imd.ufrn.br/assets/imagens/redes-de-computadores-i/red_compt_a13_f04_a.jpg" width="500px" height="300px">
+</p>
+
+|Campos|Descrição|
+|:---:|:---|
+|Porta de origem|Um campo de 16 bits usado para identificar o aplicativo de origem por número de porta|
+|Porta de destino|Um campo de 16 bits usado para identificar o aplicativo de destino por porta número|
+|Número sequencial|Um campo de 32 bits usado para fins de remontagem de dados|
+|Número de Confirmação|Um campo de 32 bits usado para indicar que os dados foram recebidos e o próximo byte esperado da fonte|
+|Comprimento do cabeçalho|Um campo de 4 bits conhecido como 'offset de datas' que indica o comprimento do cabeçalho do segmento TCP|
+|Reservado|Um campo de 6 bits que é reservado para uso futuro|
+|Bits de controle|Um campo de 6 bits que inclui códigos de bits, ou sinalizadores, que indicam a finalidade e função do segmento TCP|
+|Tamanho da janela|Um campo de 16 bits usado para indicar o número de bytes que podem ser aceitos de uma só vez|
+|Checksum|Um campo de 16 bits usado para verificação de erros do cabeçalho e dos dados do segmento|
+|Urgente|Um campo de 16 bits usado para indicar se os dados contidos são urgentes|
+
+Os seis bits no campo Bits de Controle do cabeçalho do segmento TCP são **também conhecidos como flags**.
+
+Uma flag é um bit que é definido como ligado (1) ou desligado (0).
+
+Os seis bits de controle sinalizadores são os seguintes:
+
+- SYN - Sincronizar números de sequência usados no estabelecimento de conexão.
+- ACK - Indicador de confirmação usado no estabelecimento de conexão e encerramento de sessão.
+- FIN - Não há mais dados do remetente e usados no encerramento da sessão.
+- URG - Campo de ponteiro urgente significativo.
+- PSH - Função Push.
+- RST - Redefina a conexão quando ocorrer um erro ou tempo limite.
+
+## Remontagem TCP
+
+Para que a mensagem original seja entendida pelo destinatário, todos os dados devem ser recebidos e os dados nesses segmentos devem ser remontados na ordem original.
+
+Através do número de sequência, isso permite que cada segmento seja identificado e confirmado de forma única. Segmentos perdidos podem então, ser identificados.
+
+<p align="center">
+  <img src="https://www.ccna.network/wp-content/uploads/2021/01/Os-segmentos-TCP-sao-reordenados-no-destino.png" width="500px" height="300px">
+</p>
+
+O número de sequência, `SEQ`, e o número de confirmação, `ACK`, são usados juntamente para confirmar o recebimento dos bytes de dados contidos nos segmentos.
+
+Para os segmentos de dados não confirmados, é utilizado um mecanismo para restransmitir apenas os segmentos não recebidos.
+
+<p align="center">
+  <img src="https://www.ccna.network/wp-content/uploads/2021/01/Confiabilidade-TCP-perda-de-dados-e-retransmissao.png" width="500px" height="300px">
+</p>
+
+## Handshake
+
+Nas conexões TCP, o cliente host estabelece a conexão com o servidor usando o processo de handshake de três vias.
+
+<p align="center">
+  <img src="https://i.sstatic.net/nYfsp.png" width="500px" height="300px">
+</p>
+
+|Etapas|Flags|Descrição|
+|:---:|:---:|:---|
+|1|SYN, SEQ = 100|O cliente iniciador requisita uma sessão de comunicação cliente-servidor com o servidor. Envia um SYN e um número de sequência inicial|
+|2|SYN, SEQ = 300, ACK = 101|O servidor confirma a sessão de comunicação e requisita uma sessão de comunicação de servidor-cliente. Envia um SYN para sincronizar o número de sequência de destino e o ACK reconhece o número de sequência de origem|
+|3|SEQ = 101, ACK = 301|O cliente iniciador confirma a sessão de comunicação de servidor-cliente. Envia um ACK confirmando o recebimento da mensagem de destino|
+
+`SYN` é uma flag usada no cabeçalho TCP para iniciar uma conexão e sincronizar os números de sequência.
+
+`ACK` é uma flag usada para confirmar o recebimento de dados ou mensagens.
+
+### Encerramento da sessão
+
+Para fechar uma conexão, o flag de controle Finish, `FIN`, deve ser ligado no cabeçalho do segmento. 
+
+Para terminar cada sessão TCP de uma via, um handshake de quatro vias, consistindo de um segmento FIN e um segmento ACK é usado.
+
+<p align="center">
+  <img src="https://niktips.wordpress.com/wp-content/uploads/2012/06/tcp-fin.jpg?w=238" width="500px" height="300px">
+</p>
+
+|Etapas|Flags|Descrição|
+|:---:|:---:|:---|
+|1|FIN, SEQ = 1000|Quando o cliente não tem mais dados para enviar no fluxo, ele envia um segmento com um flag FIN ligado|
+|2|ACK = 1001|O servidor envia ACK para confirmar o recebimento de FIN para encerrar a sessão do cliente com o servidor|
+|3|FIN, ACK = 1001, SEQ = 1470|O servidor envia um FIN ao cliente para encerrar a sessão do servidor-para-cliente|
+|4|ACK = 1471|O cliente responde com um ACK para reconhecer o FIN do servidor|
+
+## Controle de fluxo
+
+O TCP também fornece mecanismos para controle de fluxo. Controle de fluxo é a **quantidade de dados que o destino pode receber e processar** de forma confiável.
+
+que podem ser enviados antes de esperar uma confirmação
+
+Para definir a taxa de fluxo de dados entre a origem e o destino, o cabeçalho TCP inclui um campo de 16 bits chamado de **tamanho da janela**. O tamanho da janela determina o número de bytes que o **destino pode aceitar e processar** de uma vez, **antes de enviar uma confirmação (ACK)**.
+
+O `MSS` faz parte do campo de opções no cabeçalho TCP que especifica a **maior quantidade de dados úteis**, payload, que um dispositivo pode receber **em um único segmento TCP**.
+
+O número de sequência é o **número do próximo byte esperado**.
+
+<p align="center">
+  <img src="https://www.ccna.network/wp-content/uploads/2021/01/Exemplo-de-tamanho-de-janela-TCP.png" width="500px" height="300px">
+</p>
+
+Os valores do tamanho da janela e do MSS são definidos durante o handshake de três vias, onde os dispositivos informam seus valores e entram em um acordo (MSS = 1.460, JANELA = 10.000).
+
+|Etapas|Flags|Descrição|
+|:---:|:---:|:---|
+|1|SEQ = 1|O dispositivo A envia o primeiro segmento de 1.460 bytes para o B com número de sequência 1|
+|2|ACK = 2.921|O dispositivo B recebe os dados e responde com um ACK, indicando o próximo segmento a partir do byte 2.921|
+|3|SEQ = 2.921|O dispositivo A envia mais 1.460 bytes, começando no byte 2.921|
+|4|ACK = 4.381|O dispositivo B recebe os dados e responde com um ACK| 
+
+# UDP
+
+O `UDP` é um protocolo **sem conexão**, que **não fornece** confiabilidade ou controle de fluxo e **não requer** uma conexão estabelecida.
+
+O UDP também é conhecido como um protocolo de entrega de melhor esforço porque **não há confirmação** de que os dados são recebidos no destino.
+
+O UDP fornece as funções básicas para fornecer datagramas entre os aplicativos apropriados, com muito pouca sobrecarga e verificação de dados.
+
+`DNS`, `DHCP` e **aplicativos de vídeo e multimídia ao vivo** são algumas aplicações que fazem uso do protocolo UDP.
+
+## Recursos UDP
+
+O UDP é um protocolo simples, normalmente descrito nos termos do que ele não faz em comparação ao TCP.
+
+Os recursos UDP incluem o seguinte:
+
+- Os dados são reagrupados na ordem em que são recebidos
+- Quaisquer segmentos perdidos não são reenviados
+- Não há estabelecimento de sessão
+- O envio não é informado sobre a disponibilidade do recurso
+
+## Cabeçalho UDP
+
+Os blocos de comunicação no UDP são chamados de datagramas ou segmentos. Esses datagramas são enviados como o melhor esforço pelo protocolo da camada de transporte.
+
+O cabeçalho UDP é muito mais simples do que o cabeçalho TCP porque só tem quatro campos e requer 8 bytes (ou seja, 64 bits).
+
+<p align="center">
+  <img src="https://www.bosontreinamentos.com.br/wp-content/uploads/2016/01/formato-cabe%C3%A7alho-protocolo-UDP.png" width="500px" height="300px">
+</p>
+
+|Campos|Descrição|
+|:---:|:---|
+|Porta de origem|Um campo de 16 bits usado para identificar o aplicativo de origem por número de porta|
+|Porta de destino|Um campo de 16 bits usado para identificar o aplicativo de destino por porta número|
+|Tamanho|Um campo de 16 bits que indica o comprimento do cabeçalho do datagrama UDP|
+|Checksum|Um campo de 16 bits usado para verificação de erros do cabeçalho e dos dados do datagrama|
+
+## Remontagem UDP
+
+O UDP **não rastreia os números de sequência** da forma que o TCP faz. 
+
+O UDP **não tem como reordernar** os datagramas na sua ordem de transmissão
+
+<p align="center">
+  <img src="https://www.ccna.network/wp-content/uploads/2021/01/UDP-Connectionless-and-Unreliable.png" width="500px" height="300px">
+</p>
+
+Os datagramas fora de ordem não são reordenados.
+
+Os datagramas perdidos não são enviados novamente.
+
+# Portas
+
+Os protocolos de camada de transporte TCP e UDP usam números de porta para **gerenciar várias conversas simultâneas**.
+
+O número da porta de origem está associado ao aplicativo de origem no host local, enquanto o número da porta de destino está associado ao tipo de serviço que está sendo solicitado.
+
+## Socket
+
+`Socket` é a combinação dos endereços IP e do número das portas. O socket é usado para **identificar o servidor e o serviço** que está sendo solicitado pelo cliente.
+
+<p align="center">
+  <img src="https://academiaderedes.com/wp-content/uploads/2020/12/Imagem5.png" width="500px" height="300px">
+</p>
+
+O socket em um servidor da web pode ser 192.168.1.7:80.
+
+### Grupos de número de portas
+
+A Internet Assigned Numbers Authority (IANA) é a organização de padrões responsável por atribuir vários padrões de endereçamento, incluindo os números de porta de 16 bits.
+
+Os 16 bits usados para identificar os números de porta de origem e destino fornecem um intervalo de portas de **0 a 65535**.
+
+|Grupos|Intervalo de números|Descrição|
+|:---:|:---:|:---|
+|Portas Comuns|0 a 1.023|Portas bem conhecidas definidas para aplicativos comuns de servidor permite para identificar facilmente o serviço associado necessário|
+|Portas registradas|1.024 a 49.151|Esses números de porta são atribuídos pela IANA a uma entidade solicitante para usar com processos ou aplicativos específicos|
+|Particular e/ou portas dinâmicas|49.152 a 65.535|O sistema operacional do cliente geralmente atribui números de porta dinamicamente quando uma conexão a um serviço é iniciada|
+A porta dinâmica é então usada para identificar o aplicativo cliente durante a comunicação|
+
+|Portas|Protocolos|Aplicações|
+|:---:|:---:|:---:|
+|20|TCP|FTP - Dados|
+|21|TCP|FTP - Controle|
+|22|TCP|SSH|
+|23|TCP|Telnet|
+|25|TCP|SMTP|
+|53|UDP, TCP|DNS|
+|67|UDP|DHCP|
+|80|TCP|HTTP|
+|443|TCP|HTTPS|
