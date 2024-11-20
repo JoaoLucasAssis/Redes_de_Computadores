@@ -304,7 +304,7 @@ A internet é a maior WAN do mundo, conectando redes de todos os lugares do plan
 <br><br><br><br><br><br><br><br><br><br><hr>
 <div align="center">
     <p><strong>Módulo Anterior:</strong> Introdução às Redes</p>
-    <p><strong>Próximo Módulo:</strong> Camada Física</p>
+    <p><strong>Próximo Módulo:</strong> Protocolos e Modelos</p>
     <a href="#redes-de-computadores-i">Voltar ao topo &#8593;</a>
 </div>
 <hr><br><br><br><br><br><br><br><br><br><br>
@@ -629,8 +629,8 @@ As `PDUs` são chamadas de forma diferente em cada camada para refletir as suas 
 
 <br><br><br><br><br><br><br><br><br><br><hr>
 <div align="center">
-    <p><strong>Módulo Anterior:</strong> Protocolos e modelos</p>
-    <p><strong>Próximo Módulo:</strong> Camada física</p>
+    <p><strong>Módulo Anterior:</strong> Protocolos e Modelos</p>
+    <p><strong>Próximo Módulo:</strong> Camada Física</p>
     <a href="#redes-de-computadores-i">Voltar ao topo &#8593;</a>
 </div>
 <hr><br><br><br><br><br><br><br><br><br><br>
